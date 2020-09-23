@@ -67,7 +67,7 @@ resource "azurerm_virtual_network_gateway" "vpngw" {
   resource_group_name = data.azurerm_resource_group.rg.name
   location            = data.azurerm_resource_group.rg.location
   type                = var.gateway_type
-  vpn_type            = var.gateway_type != "ExpressRoute" ? "RouteBased" : null
+  vpn_type            = var.gateway_type != "ExpressRoute" ? var.vpn_type : null
   sku                 = var.gateway_type != "ExpressRoute" ? var.vpn_gw_sku : var.expressroute_sku
   active_active       = var.vpn_gw_sku != "Basic" ? var.enable_active_active : false
   enable_bgp          = var.vpn_gw_sku != "Basic" ? var.enable_bgp : false
@@ -82,6 +82,7 @@ resource "azurerm_virtual_network_gateway" "vpngw" {
       peer_weight     = var.bgp_peer_weight
     }
   }
+
   ip_configuration {
     name                          = "vnetGatewayConfig"
     public_ip_address_id          = azurerm_public_ip.pip_gw.id
@@ -118,9 +119,25 @@ resource "azurerm_virtual_network_gateway" "vpngw" {
   tags = merge({ "ResourceName" = "${var.vpn_gateway_name}" }, var.tags, )
 }
 
-/*
+
 resource "azurerm_local_network_gateway" "localgw" {
-    name = 
-  
+  count               = length(var.local_networks)
+  name                = "localgw-${var.local_networks[count.index].local_gw_name}"
+  resource_group_name = data.azurerm_resource_group.rg.name
+  location            = data.azurerm_resource_group.rg.location
+  gateway_address     = var.local_networks[count.index].local_gateway_address
+  address_space       = var.local_networks[count.index].local_address_space
+
+  dynamic "bgp_settings" {
+    for_each = var.local_bgp_settings != null ? [true] : []
+    content {
+      asn                 = var.local_bgp_settings[count.index].asn_number
+      bgp_peering_address = var.local_bgp_settings[count.index].peering_address
+      peer_weight         = var.local_bgp_settings[count.index].peer_weight
+    }
+  }
 }
-*/
+
+resource "azurerm_virtual_network_gateway_connection" "az-hub-onprem" {
+
+}

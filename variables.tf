@@ -48,6 +48,11 @@ variable "gateway_type" {
   default     = "Vpn"
 }
 
+variable "vpn_type" {
+  description = "The routing type of the Virtual Network Gateway. Valid options are RouteBased or PolicyBased. Defaults to RouteBased"
+  default     = "RouteBased"
+}
+
 variable "vpn_gw_sku" {
   description = "Configuration of the size and capacity of the virtual network gateway. Valid options are Basic, VpnGw1, VpnGw2, VpnGw3, VpnGw4,VpnGw5, VpnGw1AZ, VpnGw2AZ, VpnGw3AZ,VpnGw4AZ and VpnGw5AZ and depend on the type, vpn_type and generation arguments"
   default     = "VpnGw1"
@@ -94,6 +99,17 @@ variable "vpn_client_configuration" {
   default     = null
 }
 
+variable "local_networks" {
+  type        = list(object({ local_gw_name = string, local_gateway_address = string, local_address_space = list(string), shared_key = string, ipsec_policy = any }))
+  description = "(optional) describe your variable"
+  default     = []
+}
+
+variable "local_bgp_settings" {
+  type        = list(object({ asn_number = number, peering_address = string, peer_weight = number }))
+  description = "(optional) describe your variable"
+  default     = null
+}
 
 variable "tags" {
   description = "A map of tags to add to all resources"
