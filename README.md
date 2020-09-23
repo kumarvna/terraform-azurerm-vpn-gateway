@@ -128,6 +128,7 @@ public_ip_allocation_method|Defines the allocation method for this IP address. P
 `gateway_type`|The type of the Virtual Network Gateway. Valid options are `Vpn` or `ExpressRoute`|string|`Vpn`
 `vpn_type`|The routing type of the Virtual Network Gateway. Valid options are `RouteBased` or `PolicyBased`|string|`RouteBased`
 `vpn_gw_sku`|Configuration of the size and capacity of the virtual network gateway. Valid options are Basic, `VpnGw1`, `VpnGw2`, `VpnGw3`, `VpnGw4`,`VpnGw5`, `VpnGw1AZ`, `VpnGw2AZ`, `VpnGw3AZ`,`VpnGw4AZ` and `VpnGw5AZ` and depend on the `gateway_type`, `vpn_type` and generation arguments|string|`VpnGw1`
+`expressroute_sku`|Configuration of the size and capacity of the virtual network gateway for `ExpressRoute` type. Valid options are `Standard`, `HighPerformance`, `UltraPerformance`, `ErGw1AZ`, `ErGw2AZ`, `ErGw3AZ` and depend on the type, `vpn_type` and `generation` arguments|string|`Standard`
 
 
 ## Outputs
