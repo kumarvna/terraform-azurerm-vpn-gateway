@@ -2,13 +2,13 @@
 
 Terraform module to create Virtual network gateway to send encrypted traffic between an Azure virtual network and an on-premises location over the public Internet.
 
->## Creating a virtual network gateway can take up to __45 minutes__ to complete. When you create a virtual network gateway, gateway VMs are deployed to the gateway subnet and configured with the settings that you specify
-
 Types of resources are supported:
 
 * Point-to-Site
 * Site-to-Site
 * ExpressRoute
+
+>## *Creating a virtual network gateway can take up to **45 minutes** to complete. When you create a virtual network gateway, gateway VMs are deployed to the gateway subnet and configured with the settings that you specify*
 
 ## Module Usage
 
