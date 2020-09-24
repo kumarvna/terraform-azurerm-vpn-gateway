@@ -84,8 +84,8 @@ variable "bgp_peer_weight" {
 }
 
 variable "vpn_client_configuration" {
-  type        = object({ address_space = string, certifciate_path = string, protocols = list(string), rovoked_certificate_sha1_thumbprint = string, vpn_client_protocols = string })
-  description = "Virtual Network Gateway client configuration to accept IPSec point-to-site connections using"
+  type        = object({ address_space = string, certificate = string, vpn_client_protocols = list(string) })
+  description = "Virtual Network Gateway client configuration to accept IPSec point-to-site connections"
   default     = null
 }
 

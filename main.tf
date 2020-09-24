@@ -98,11 +98,7 @@ resource "azurerm_virtual_network_gateway" "vpngw" {
       address_space = [vpn.value.address_space]
       root_certificate {
         name             = "point-to-site-root-certifciate"
-        public_cert_data = file(vpn.value.certifciate_path)
-      }
-      revoked_certificate {
-        name       = "point-to-site-root-CA"
-        thumbprint = vpn.value.rovoked_certificate_sha1_thumbprint
+        public_cert_data = vpn.value.certificate
       }
       vpn_client_protocols = vpn.value.vpn_client_protocols
     }
@@ -136,16 +132,16 @@ resource "azurerm_local_network_gateway" "localgw" {
 # Virtual Network Gateway Connection
 #---------------------------------------
 resource "azurerm_virtual_network_gateway_connection" "az-hub-onprem" {
-  count                           = length(var.local_networks)
-  name                            = "localgw-connection-${var.local_networks[count.index].local_gw_name}"
+  count                           = var.gateway_connection_type == "ExpressRoute" ? 1 : length(var.local_networks)
+  name                            = var.gateway_connection_type == "ExpressRoute" ? "localgw-expressroute-connection" : "localgw-connection-${var.local_networks[count.index].local_gw_name}"
   resource_group_name             = data.azurerm_resource_group.rg.name
   location                        = data.azurerm_resource_group.rg.location
   type                            = var.gateway_connection_type
   virtual_network_gateway_id      = azurerm_virtual_network_gateway.vpngw.id
-  local_network_gateway_id        = azurerm_local_network_gateway.localgw[count.index].id
+  local_network_gateway_id        = var.gateway_connection_type != "ExpressRoute" ? azurerm_local_network_gateway.localgw[count.index].id : null
   express_route_circuit_id        = var.gateway_connection_type == "ExpressRoute" ? var.express_route_circuit_id : null
   peer_virtual_network_gateway_id = var.gateway_connection_type == "Vnet2Vnet" ? var.peer_virtual_network_gateway_id : null
-  shared_key                      = var.local_networks[count.index].shared_key
+  shared_key                      = var.gateway_connection_type != "ExpressRoute" ? var.local_networks[count.index].shared_key : null
   connection_protocol             = var.gateway_connection_type == "IPSec" && var.vpn_gw_sku == ["VpnGw1", "VpnGw2", "VpnGw3", "VpnGw1AZ", "VpnGw2AZ", "VpnGw3AZ"] ? var.gateway_connection_protocol : null
 
   dynamic "ipsec_policy" {
@@ -161,5 +157,5 @@ resource "azurerm_virtual_network_gateway_connection" "az-hub-onprem" {
       sa_lifetime      = var.local_networks_ipsec_policy.sa_lifetime
     }
   }
-  tags = merge({ "ResourceName" = "localgw-connection-${var.local_networks[count.index].local_gw_name}" }, var.tags, )
+  tags = merge({ "ResourceName" = var.gateway_connection_type == "ExpressRoute" ? "localgw-expressroute-connection" : "localgw-connection-${var.local_networks[count.index].local_gw_name}" }, var.tags, )
 }

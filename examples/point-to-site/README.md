@@ -28,10 +28,6 @@ module "vpn-gateway" {
     },
   ]
 
-  # (Optional) To enable Azure Monitoring and install log analytics agents
-  #  log_analytics_workspace_name = var.log_analytics_workspace_id
-  #  hub_storage_account_name     = var.hub_storage_account_id
-
   # Adding TAG's to your Azure resources (Required)
   tags = {
     ProjectName  = "demo-internal"
