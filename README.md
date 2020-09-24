@@ -47,7 +47,7 @@ module "vpn-gateway" {
 }
 ```
 
-> ## Important
+## Important
 
 1. Note that IPsec/IKE policy only works on the following gateway SKUs:
 
