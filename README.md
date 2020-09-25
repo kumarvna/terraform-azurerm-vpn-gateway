@@ -23,7 +23,7 @@ module "vpn-gateway" {
   virtual_network_name = "vnet-shared-hub-westeurope-001"
   vpn_gateway_name     = "shared-vpn-gw01"
   gateway_type         = "Vpn"
-  
+
   # local network gateway connection
   local_networks = [
     {
@@ -31,9 +31,6 @@ module "vpn-gateway" {
       local_gateway_address = "8.8.8.8"
       local_address_space   = ["10.1.0.0/24"]
       shared_key            = "xpCGkHTBQmDvZK9HnLr7DAvH"
-      ipsec_policy = {
-
-      }
     },
   ]
 

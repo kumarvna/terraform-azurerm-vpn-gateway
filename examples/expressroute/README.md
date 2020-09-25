@@ -1,6 +1,6 @@
 # Virtual Network Gateway creation example
 
-Terraform module to create Virtual network gateway to send encrypted traffic between an Azure virtual network and an on-premises location over the public Internet.
+Terraform module to create a Virtual Network Gateway to send encrypted traffic between an Azure virtual network and an on-premises location over the public Internet. Supports both VPN and ExpressRoute gateway types. VPN configuration supports ExpressRoute (private connection), Site-to-Site and Multi-Site (IPsec/IKE VPN tunnel). Optional active-active mode and point-to-site supported as well.
 
 ## Module Usage
 
@@ -13,20 +13,13 @@ module "vpn-gateway" {
   resource_group_name  = "rg-shared-westeurope-01"
   virtual_network_name = "vnet-shared-hub-westeurope-001"
   vpn_gateway_name     = "shared-vpn-gw01"
-  gateway_type         = "Vpn"
+  gateway_type         = "ExpressRoute"
+  vpn_gw_generation    = "None"
 
-  # local network gateway connection
-  local_networks = [
-    {
-      local_gw_name         = "onpremise"
-      local_gateway_address = "8.8.8.8"
-      local_address_space   = ["10.1.0.0/24"]
-      shared_key            = "xpCGkHTBQmDvZK9HnLr7DAvH"
-      ipsec_policy = {
-
-      }
-    },
-  ]
+  # ExpressRoute parameters i.e. when type is ExpressRoute
+  # The Express Route Circuit can be in the same or in a different subscription
+  gateway_connection_type  = "ExpressRoute"
+  express_route_circuit_id = var.express_route_circuit_id
 
   # Adding TAG's to your Azure resources (Required)
   tags = {
