@@ -58,13 +58,13 @@ module "vpn-gateway" {
 
 4. Consult with your VPN device vendor specifications to ensure the policy is supported on your on-premises VPN devices. S2S or VNet-to-VNet connections cannot establish if the policies are incompatible.
 
-## `GatewaySubnet` - Gateway Subnet Requirement
+## `GatewaySubnet` - Do I need a GatewaySubnet?
 
 Yes. The gateway subnet contains the IP addresses that the virtual network gateway services use. You need to create a gateway subnet for your VNet in order to configure a virtual network gateway. All gateway subnets must be named 'GatewaySubnet' to work properly. Don't name your gateway subnet something else. And don't deploy VMs or anything else to the gateway subnet.
 
 When you create the gateway subnet, you specify the number of IP addresses that the subnet contains. The IP addresses in the gateway subnet are allocated to the gateway service. Some configurations require more IP addresses to be allocated to the gateway services than do others. You want to make sure your gateway subnet contains enough IP addresses to accommodate future growth and possible additional new connection configurations. So, while you can create a gateway subnet as small as /29, we recommend that you create a gateway subnet of /27 or larger (/27, /26, /25 etc.).
 
-### `local_networks_ipsec_policy` Virtual Network Gateway Connection IPSec Policy  
+## `local_networks_ipsec_policy` Virtual Network Gateway Connection IPSec Policy  
 
 IPsec and IKE protocol standard supports a wide range of cryptographic algorithms in various combinations. If you do not request a specific combination of cryptographic algorithms and parameters, Azure VPN gateways use a set of default proposals. The default policy sets chosen to maximize interoperability with a wide range of third-party VPN devices in default configurations. As a result, the policies and the number of proposals cannot cover all possible combinations of available cryptographic algorithms and key strengths.
 
@@ -81,7 +81,7 @@ Name | Description
 `sa_datasize`|The IPSec SA payload size in KB. Must be at least `1024` KB. Defaults to `102400000` KB.
 `sa_lifetime`|The IPSec SA lifetime in seconds. Must be at least `300` seconds. Defaults to `27000` seconds
 
-### `local_networks` Local Virtual Network Connections
+## `local_networks` Local Virtual Network Connections
 
 A local network gateway represents the hardware or software VPN device in your local network. Use this with a connection to set up a site-to-site VPN connection between an Azure virtual network and your local network. Following parameters can help configure Azure local virtual network gateways with your on-premise network.
 
@@ -92,7 +92,7 @@ Name | Description
 `local_address_space`|The list of string CIDRs representing the address spaces the gateway exposes
 `shared_key`| The shared `IPSec` key. A key could be provided if a `Site-to-Site`, `VNet-to-VNet` or `ExpressRoute` connection is created
 
-### `vpn_client_configuration` IPSec point-to-site connections
+## `vpn_client_configuration` IPSec point-to-site connections
 
 A Point-to-Site (P2S) VPN gateway connection lets you create a secure connection to your virtual network from an individual client computer. A P2S connection is established by starting it from the client computer. This solution is useful for telecommuters who want to connect to Azure VNets from a remote location, such as from home or a conference. P2S VPN is also a useful solution to use instead of S2S VPN when you have only a few clients that need to connect to a VNet. Following parameters are required to configure P2S connection with client computer.
 
