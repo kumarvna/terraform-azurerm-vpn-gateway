@@ -18,16 +18,6 @@ variable "subnet_name" {
   default     = ""
 }
 
-variable "log_analytics_workspace_name" {
-  description = "The name of log analytics workspace name"
-  default     = null
-}
-
-variable "hub_storage_account_name" {
-  description = "The name of the hub storage account to store logs"
-  default     = null
-}
-
 variable "vpn_gateway_name" {
   description = "The name of the Virtual Network Gateway"
   default     = ""
@@ -46,6 +36,11 @@ variable "public_ip_sku" {
 variable "gateway_type" {
   description = "The type of the Virtual Network Gateway. Valid options are Vpn or ExpressRoute"
   default     = "Vpn"
+}
+
+variable "vpn_type" {
+  description = "The routing type of the Virtual Network Gateway. Valid options are RouteBased or PolicyBased. Defaults to RouteBased"
+  default     = "RouteBased"
 }
 
 variable "vpn_gw_sku" {
@@ -89,12 +84,47 @@ variable "bgp_peer_weight" {
 }
 
 variable "vpn_client_configuration" {
-  type        = object({ address_space = string, certifciate_path = string, protocols = list(string), rovoked_certificate_sha1_thumbprint = string, vpn_client_protocols = string })
-  description = "Virtual Network Gateway client configuration to accept IPSec point-to-site connections using"
+  type        = object({ address_space = string, certificate = string, vpn_client_protocols = list(string) })
+  description = "Virtual Network Gateway client configuration to accept IPSec point-to-site connections"
   default     = null
 }
 
+variable "local_networks" {
+  type        = list(object({ local_gw_name = string, local_gateway_address = string, local_address_space = list(string), shared_key = string }))
+  description = "List of local virtual network connections to connect to gateway"
+  default     = []
+}
 
+variable "local_bgp_settings" {
+  type        = list(object({ asn_number = number, peering_address = string, peer_weight = number }))
+  description = "Local Network Gateway's BGP speaker settings"
+  default     = null
+}
+
+variable "gateway_connection_type" {
+  description = "The type of connection. Valid options are IPsec (Site-to-Site), ExpressRoute (ExpressRoute), and Vnet2Vnet (VNet-to-VNet)"
+  default     = "IPsec"
+}
+
+variable "express_route_circuit_id" {
+  description = "The ID of the Express Route Circuit when creating an ExpressRoute connection"
+  default     = null
+}
+
+variable "peer_virtual_network_gateway_id" {
+  description = "The ID of the peer virtual network gateway when creating a VNet-to-VNet connection"
+  default     = null
+}
+
+variable "gateway_connection_protocol" {
+  description = "The IKE protocol version to use. Possible values are IKEv1 and IKEv2. Defaults to IKEv2"
+  default     = "IKEv2"
+}
+
+variable "local_networks_ipsec_policy" {
+  description = "IPSec policy for local networks. Only a single policy can be defined for a connection."
+  default     = null
+}
 variable "tags" {
   description = "A map of tags to add to all resources"
   type        = map(string)
