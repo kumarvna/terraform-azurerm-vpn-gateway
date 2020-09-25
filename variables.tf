@@ -125,6 +125,7 @@ variable "local_networks_ipsec_policy" {
   description = "IPSec policy for local networks. Only a single policy can be defined for a connection."
   default     = null
 }
+
 variable "tags" {
   description = "A map of tags to add to all resources"
   type        = map(string)
