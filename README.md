@@ -58,7 +58,7 @@ module "vpn-gateway" {
 
 4. Consult with your VPN device vendor specifications to ensure the policy is supported on your on-premises VPN devices. S2S or VNet-to-VNet connections cannot establish if the policies are incompatible.
 
-## `GatewaySubnet` - Gateway Subnet Requirement
+## `GatewaySubnet` - Do I need a GatewaySubnet?
 
 Yes. The gateway subnet contains the IP addresses that the virtual network gateway services use. You need to create a gateway subnet for your VNet in order to configure a virtual network gateway. All gateway subnets must be named 'GatewaySubnet' to work properly. Don't name your gateway subnet something else. And don't deploy VMs or anything else to the gateway subnet.
 
