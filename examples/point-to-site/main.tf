@@ -1,13 +1,13 @@
 module "vpn-gateway" {
-  // source  = "kumarvna/vpn-gateway/azurerm"
-  // version = "1.0.0"
-  source = "../../"
+  source  = "kumarvna/vpn-gateway/azurerm"
+  version = "1.0.0"
+
   # Resource Group, location, VNet and Subnet details
   resource_group_name  = "rg-shared-westeurope-01"
   virtual_network_name = "vnet-shared-hub-westeurope-001"
   vpn_gateway_name     = "shared-vpn-gw01"
 
-  # client configuration
+  # client configuration for Point-to-Site VPN Gateway connections
   vpn_client_configuration = {
     address_space        = "10.1.0.0/24"
     vpn_client_protocols = ["SSTP", "IkeV2"]

@@ -1,14 +1,14 @@
 # Virtual Network Gateway terraform module
 
-Terraform module to create Virtual network gateway to send encrypted traffic between an Azure virtual network and an on-premises location over the public Internet.
+Terraform module to create a Virtual Network Gateway to send encrypted traffic between an Azure virtual network and an on-premises location over the public Internet. Supports both VPN and ExpressRoute gateway types. VPN configuration supports ExpressRoute (private connection), Site-to-Site and Multi-Site (IPsec/IKE VPN tunnel). Optional active-active mode and point-to-site supported as well.
+
+>## *Creating a virtual network gateway can take up to **45 minutes** to complete. When you create a virtual network gateway, gateway VMs are deployed to the gateway subnet and configured with the settings that you specify*  
 
 Types of resources are supported:
 
 * Point-to-Site
 * Site-to-Site
 * ExpressRoute
-
->## *Creating a virtual network gateway can take up to **45 minutes** to complete. When you create a virtual network gateway, gateway VMs are deployed to the gateway subnet and configured with the settings that you specify*
 
 ## Module Usage
 
@@ -18,6 +18,7 @@ module "vpn-gateway" {
   version = "1.0.0"
 
   # Resource Group, location, VNet and Subnet details
+  # IPSec Site-to-Site connection configuration requirements
   resource_group_name  = "rg-shared-westeurope-01"
   virtual_network_name = "vnet-shared-hub-westeurope-001"
   vpn_gateway_name     = "shared-vpn-gw01"
@@ -96,7 +97,7 @@ Name | Description
 ---- | -----------
 `address_space`|The address space out of which IP addresses for VPN clients will be taken. You can provide more than one address space, e.g. in CIDR notation
 `certifciate_path`|The public certificate of the root certificate authority. The certificate must be provided in Base-64 encoded X.509 format (PEM). In particular, this argument must not include the -----BEGIN CERTIFICATE----- or -----END CERTIFICATE----- markers
-`vpn_client_protocols`|) List of the protocols supported by the VPN client. The supported values are `SSTP`, `IkeV2` and `OpenVPN`
+`vpn_client_protocols`| List of the protocols supported by the VPN client. The supported values are `SSTP`, `IkeV2` and `OpenVPN`
 
 ## Recommended naming and tagging conventions
 
