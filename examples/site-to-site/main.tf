@@ -1,6 +1,6 @@
 module "vpn-gateway" {
   source  = "kumarvna/vpn-gateway/azurerm"
-  version = "1.0.0"
+  version = "1.1.0"
 
   # Resource Group, location, VNet and Subnet details
   # IPSec Site-to-Site connection configuration requirements

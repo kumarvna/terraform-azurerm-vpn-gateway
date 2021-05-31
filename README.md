@@ -15,7 +15,7 @@ Types of resources are supported:
 ```hcl
 module "vpn-gateway" {
   source  = "kumarvna/vpn-gateway/azurerm"
-  version = "1.0.0"
+  version = "1.1.0"
 
   # Resource Group, location, VNet and Subnet details
   # IPSec Site-to-Site connection configuration requirements
@@ -136,7 +136,7 @@ End Date of the Project|Date when this application, workload, or service is plan
 ```hcl
 module "vnet" {
   source  = "kumarvna/vpn-gateway/azurerm"
-  version = "1.0.0"
+  version = "1.1.0"
 
   # ... omitted
 
@@ -155,13 +155,13 @@ module "vnet" {
 Name | Version
 -----|--------
 terraform | >= 0.13
-azurerm | ~> 2.27
+azurerm | >= 2.59.0
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-azurerm | ~> 2.27
+azurerm | >= 2.59.0
 random | n/a
 
 ## Inputs

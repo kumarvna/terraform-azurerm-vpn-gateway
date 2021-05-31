@@ -1,6 +1,6 @@
 module "vpn-gateway" {
   source  = "kumarvna/vpn-gateway/azurerm"
-  version = "1.0.0"
+  version = "1.1.0"
 
   # Resource Group, location, VNet and Subnet details
   resource_group_name  = "rg-shared-westeurope-01"
@@ -8,6 +8,7 @@ module "vpn-gateway" {
   vpn_gateway_name     = "shared-vpn-gw01"
 
   # client configuration for Point-to-Site VPN Gateway connections
+  # this key here for example only. Use your own key pairs for security. 
   vpn_client_configuration = {
     address_space        = "10.1.0.0/24"
     vpn_client_protocols = ["SSTP", "IkeV2"]
