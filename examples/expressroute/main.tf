@@ -1,7 +1,6 @@
 module "vpn-gateway" {
-  //source  = "kumarvna/vpn-gateway/azurerm"
-  //version = "1.0.0"
-  source = "github.com/kumarvna/terraform-azurerm-vpn-gateway?ref=develop"
+  source  = "kumarvna/vpn-gateway/azurerm"
+  version = "1.1.0"
 
   # Resource Group, location, VNet and Subnet details
   resource_group_name  = "rg-shared-westeurope-01"
